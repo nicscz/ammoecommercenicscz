@@ -19,7 +19,7 @@ interface ProductList extends Product {
 
 interface ProductRepository {
   getProducts(): Promise<ProductList[]>
-  getProductById(id: number): Promise<Product>
+  getProductByName(name: string): Promise<Product>
 }
 
 const makeValidation = (): Validation => {
@@ -61,7 +61,7 @@ const makeProductRepositoryStub = () => {
       ])
     }
 
-    getProductById(id: number): Promise<Product> {
+    getProductByName(name: string): Promise<Product> {
       return Promise.resolve({
         id: 1, 
           name: 'Camiseta Casual',
@@ -143,20 +143,19 @@ describe('Product Controller', () => {
           expect(error).toBeInstanceOf(Error)
         }
       });
-      
   })
 
-  describe('GetProductById', () => {
+  describe('GetProductByName', () => {
     test('Should return a product', async () => {
       const { sut } = makeSut()
 
       const httpRequest: HttpRequest = {
         body: {
-          id: 1
+          name: 'Camiseta Casual'
         }
       }
 
-      const result = await sut.getProductById(httpRequest)
+      const result = await sut.getProductByName(httpRequest)
 
       expect(result).toEqual({
         statusCode: 200,
@@ -173,5 +172,43 @@ describe('Product Controller', () => {
         } 
       })
     })
+
+    test('Should return 400 if no id is provided', async () => {
+      const { sut, validation } = makeSut()
+      jest.spyOn(validation, 'validate').mockReturnValueOnce(new MissingParamError('id'))
+
+      const httpRequest: HttpRequest = {
+        body: {
+          name: null
+        }
+      }
+
+      const result = await sut.getProductByName(httpRequest)
+
+      expect(result).toEqual({
+        statusCode: 400,
+        body: new MissingParamError('id')
+      })
+    })
+    
+
+    test('should throw if GetProductByName throws', async () => {
+      const { sut, productRepositoryStub } = makeSut();
+      
+      jest.spyOn(productRepositoryStub, 'getProductByName').mockRejectedValueOnce(new Error());
+
+      const httpRequest: HttpRequest = {
+        body: {
+          name: 'Camiseta Casual'
+        }
+      }
+
+      try {
+        await sut.getProductByName(httpRequest);
+        fail('Expected an exception to be thrown')
+      } catch (error) {
+        expect(error).toBeInstanceOf(Error)
+      }
+    });
   })
 })

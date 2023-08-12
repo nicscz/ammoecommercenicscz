@@ -17,16 +17,16 @@ export class ProductController {
     }
   }
 
-  async getProductById (httpRequest: HttpRequest): Promise<HttpResponse> {
+  async getProductByName (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const error = this.validation.validate(httpRequest.body)
       if (error) {
         return badRequest(error)
       }
 
-      const { id } = httpRequest.body
+      const { name } = httpRequest.body
 
-      const result = await this.productRepository.getProductById(id)
+      const result = await this.productRepository.getProductByName(name)
 
       return ok(result)
     } catch (error) {
