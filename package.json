@@ -1,12 +1,12 @@
 {
   "name": "ecommerce",
   "version": "1.0.0",
-  "description": "",
+  "description": "Desafio proposto pela empresa Ammo Varejo para vaga de FSD",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Nícolas Nascimento Scorzelli Serrano",
   "license": "ISC"
 }
