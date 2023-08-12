@@ -4,14 +4,26 @@ import { Validation } from '../protocols/validation'
 
 export class ProductController {
   constructor (
-    readonly productRepository: any,
-    private readonly validation: Validation) {}
+    private readonly productRepository: any,
+    private readonly validation: Validation
+  ) {}
 
-  async getProducts (): Promise<HttpResponse> {
+  async getProducts (page: number = 1, pageSize: number = 10): Promise<HttpResponse> {
     try {
-      const result = await this.productRepository.getProducts()
+      const skip = (page - 1) * pageSize
+      const products = await this.productRepository.getProductsPaginated(skip, pageSize)
+      const totalCount = await this.productRepository.getTotalProductCount()
 
-      return ok(result)
+      const totalPages = Math.ceil(totalCount / pageSize)
+
+      const response = {
+        products,
+        currentPage: page,
+        totalPages,
+        totalProducts: totalCount
+      }
+
+      return ok(response)
     } catch (error) {
       return serverError(error)
     }
