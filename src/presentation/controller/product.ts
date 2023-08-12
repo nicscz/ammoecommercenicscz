@@ -1,39 +1,38 @@
+import { HttpRequest, HttpResponse } from '../protocols/http'
+import { badRequest, ok, serverError } from '../helpers/http/http-helper'
+import { Validation } from '../protocols/validation'
+
 export class ProductController {
-  getProducts (): any {
-    return ({
-      produtos: [
-        {
-          nome: 'Camiseta Casual',
-          descrição: 'Uma camiseta confortável para o uso diário.',
-          preço_promocional: 29.99,
-          preço_original: 39.99,
-          imagens: [
-            'https://exemplo.com/imagens/camiseta1.jpg'
-          ],
-          categoria: 'Vestuário'
-        },
-        {
-          nome: 'Tênis Esportivo',
-          descrição: 'Tênis durável e ideal para atividades físicas.',
-          preço_promocional: 79.99,
-          preço_original: 89.99,
-          imagens: [
-            'https://exemplo.com/imagens/tenis1.jpg',
-            'https://exemplo.com/imagens/tenis2.jpg'
-          ],
-          categoria: 'Calçados'
-        },
-        {
-          nome: 'Notebook Ultraleve',
-          descrição: 'Um notebook fino e poderoso para trabalho e entretenimento.',
-          preço_promocional: 999.99,
-          preço_original: 1199.99,
-          imagens: [
-            'https://exemplo.com/imagens/notebook1.jpg'
-          ],
-          categoria: 'Eletrônicos'
-        }
-      ]
-    })
+  constructor (
+    readonly productRepository: any,
+    private readonly validation: Validation) {}
+
+  async getProducts (): Promise<HttpResponse> {
+    try {
+      const result = await this.productRepository.getProducts()
+
+      return ok(result)
+    } catch (error) {
+      return serverError(error)
+    }
+  }
+
+  async getProductById (httpRequest: HttpRequest): Promise<HttpResponse> {
+    try {
+      const error = this.validation.validate(httpRequest.body)
+      if (error) {
+        return badRequest(error)
+      }
+
+      const { id } = httpRequest.body
+
+      const result = await this.productRepository.getProductById(id)
+
+      return ok(result)
+    } catch (error) {
+      return serverError(error)
+    }
   }
 }
+
+export default ProductController
