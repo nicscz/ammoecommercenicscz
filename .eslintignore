@@ -1,4 +1,7 @@
 node_modules
+jest-integration-config.js
+jest-unit-config.js
+jest.config.js
 dist
 coverage
 **/*.spec.ts
