@@ -1,20 +1,10 @@
 import { Pool, PoolConfig } from 'pg'
+import * as dotenv from 'dotenv'
+dotenv.config()
 
-class DatabaseConnector {
-  private static instance: DatabaseConnector
-  private databaseConnection: Pool | null = null
-
-  private constructor () {}
-
-  static getInstance (): DatabaseConnector {
-    if (!DatabaseConnector.instance) {
-      DatabaseConnector.instance = new DatabaseConnector()
-    }
-    return DatabaseConnector.instance
-  }
-
+export class DatabaseConnector {
   async configureConnection (): Promise<Pool> {
-    if (!this.databaseConnection) {
+    if (!global.databaseConnection) {
       const poolConfig: PoolConfig = {
         user: process.env.DATABASE_USER || '',
         host: process.env.DATABASE_HOST || '',
@@ -24,14 +14,12 @@ class DatabaseConnector {
         max: Number(process.env.DATABASE_CONNECTION_LIMIT) || 10
       }
 
-      this.databaseConnection = new Pool(poolConfig)
+      global.databaseConnection = new Pool(poolConfig)
     }
-    return this.databaseConnection
+    return global.databaseConnection
   }
 
   async generateConnection (): Promise<Pool> {
-    return this.configureConnection()
+    return Promise.resolve(this.configureConnection())
   }
 }
-
-export default DatabaseConnector.getInstance()

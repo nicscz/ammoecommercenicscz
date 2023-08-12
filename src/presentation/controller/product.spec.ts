@@ -2,26 +2,10 @@ import { ProductController } from "./product";
 import { HttpRequest, HttpResponse } from "../protocols/http";
 import { MissingParamError } from "../errors";
 import { Validation } from "../protocols/validation";
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  promo_price: number;
-  original_price: number;
-  images: string[];
-  category: string;
-}
-
-interface ProductList extends Product {
-  list?: Product[];
-  currentPage?: number;
-  totalPages?: number;
-  totalProducts?: number;
-}
+import { ProductModel, ProductList } from "../../domain/models/product"
 
 interface ProductRepository {
-  getProductByName(name: string): Promise<Product>;
+  getProductByName(name: string): Promise<ProductModel>;
   getProductsPaginated(skip: number, pageSize: number): Promise<ProductList[]>;
   getTotalProductCount(): Promise<Number>;
   deleteProductById(id: number): Promise<void>;
@@ -71,7 +55,7 @@ const makeProductRepositoryStub = () => {
       return Promise.resolve(37);
     }
 
-    getProductByName(name: string): Promise<Product> {
+    getProductByName(name: string): Promise<ProductModel> {
       return Promise.resolve({
         id: 1,
         name: "Camiseta Casual",
