@@ -1,10 +1,12 @@
-# Instruções
+# Desafio Técnico - Ammo Varejo
 
-O teste consiste em desenvolver uma aplicação que permita a listagem de
-produtos em um e-commerce.
+Bem-vindo ao meu projeto de desafio técnico para a vaga de Desenvolvedor Fullstack na Ammo Varejo! Neste projeto, desenvolvi uma aplicação de e-commerce com funcionalidades de listagem de produtos, busca por nome, paginação e limite de produtos por página. A aplicação foi implementada em Typescript, seguindo uma arquitetura hexagonal para uma melhor organização e testabilidade.
 
-## Essa aplicação deve conter algumas funcionalidades, como:
+## Como Rodar o Projeto
 
-### busca pelo nome do produto,
-### paginação 
-### e limite de produtos por página.
+Siga essas instruções para executar o projeto localmente em sua máquina.
+
+### Pré-requisitos
+
+- Node.js
+- Banco de dados configurado (PostgreSQL)
