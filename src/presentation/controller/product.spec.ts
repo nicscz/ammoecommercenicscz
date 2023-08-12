@@ -3,13 +3,7 @@ import { HttpRequest, HttpResponse } from "../protocols/http";
 import { MissingParamError } from "../errors";
 import { Validation } from "../protocols/validation";
 import { ProductModel, ProductList } from "../../domain/models/product"
-
-interface ProductRepository {
-  getProductByName(name: string): Promise<ProductModel>;
-  getProductsPaginated(skip: number, pageSize: number): Promise<ProductList[]>;
-  getTotalProductCount(): Promise<Number>;
-  deleteProductById(id: number): Promise<void>;
-}
+import { ProductRepository } from '../../data/protocols/db/product/repositories/productRepository'
 
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
@@ -51,7 +45,7 @@ const makeProductRepositoryStub = () => {
       ]);
     }
 
-    getTotalProductCount(): Promise<Number> {
+    getTotalProductCount(): Promise<number> {
       return Promise.resolve(37);
     }
 
