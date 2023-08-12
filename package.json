@@ -19,6 +19,7 @@
   "author": "Nícolas Nascimento Scorzelli Serrano",
   "license": "ISC",
   "devDependencies": {
+    "@shelf/jest-mongodb": "^4.1.7",
     "@types/jest": "^29.5.3",
     "@types/node": "^20.4.10",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
