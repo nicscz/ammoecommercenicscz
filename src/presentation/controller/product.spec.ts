@@ -24,6 +24,7 @@ interface ProductRepository {
   getProductByName(name: string): Promise<Product>;
   getProductsPaginated(skip: number, pageSize: number): Promise<ProductList[]>;
   getTotalProductCount(): Promise<Number>;
+  deleteProductById(id: number): Promise<void>;
 }
 
 const makeValidation = (): Validation => {
@@ -62,7 +63,7 @@ const makeProductRepositoryStub = () => {
             "https://exemplo.com/imagens/tenis2.jpg",
           ],
           category: "Calçados",
-        }
+        },
       ]);
     }
 
@@ -81,15 +82,19 @@ const makeProductRepositoryStub = () => {
         category: "Vestuário",
       });
     }
+
+    deleteProductById(id: any): Promise<void> {
+      return Promise.resolve();
+    }
   }
 
   return new ProductRepositoryStub();
 };
 
 interface SutTypes {
-  sut: ProductController;
-  productRepositoryStub: ProductRepository;
-  validation: Validation;
+  sut: ProductController
+  validation: Validation
+  productRepositoryStub: ProductRepository
 }
 
 const makeSut = (): SutTypes => {
@@ -98,8 +103,8 @@ const makeSut = (): SutTypes => {
   const sut = new ProductController(productRepositoryStub, validation);
   return {
     sut,
-    productRepositoryStub,
     validation,
+    productRepositoryStub
   };
 };
 
@@ -107,14 +112,15 @@ describe("Product Controller", () => {
   describe("GetProducts", () => {
     test("Should return a list of products", async () => {
       const { sut } = makeSut();
-      const page: number = 1, pageSize: number = 10;
+      const page: number = 1,
+        pageSize: number = 10;
       const result = await sut.getProducts(page, pageSize);
 
       expect(result).toEqual({
         statusCode: 200,
         body: {
-          "currentPage": 1,
-          "products": [
+          currentPage: 1,
+          products: [
             {
               id: 1,
               name: "Camiseta Casual",
@@ -137,15 +143,18 @@ describe("Product Controller", () => {
               category: "Calçados",
             },
           ],
-          "totalPages": 4,
-          "totalProducts": 37
-        }})
+          totalPages: 4,
+          totalProducts: 37,
+        },
+      });
     });
 
     test("should throw if GetProducts throws", async () => {
       const { sut, productRepositoryStub } = makeSut();
 
-      jest.spyOn(productRepositoryStub, "getProductsPaginated").mockRejectedValueOnce(new Error());
+      jest
+        .spyOn(productRepositoryStub, "getProductsPaginated")
+        .mockRejectedValueOnce(new Error());
 
       try {
         await sut.getProducts();
@@ -184,9 +193,7 @@ describe("Product Controller", () => {
 
     test("Should return 400 if no id is provided", async () => {
       const { sut, validation } = makeSut();
-      jest
-        .spyOn(validation, "validate")
-        .mockReturnValueOnce(new MissingParamError("id"));
+      jest.spyOn(validation, "validate").mockReturnValueOnce(new MissingParamError("id"));
 
       const httpRequest: HttpRequest = {
         body: {
@@ -222,5 +229,55 @@ describe("Product Controller", () => {
         expect(error).toBeInstanceOf(Error);
       }
     });
+  });
+
+  describe("DeleteProductById", () => {
+    test("Should return 400 if no id is provided", async () => {
+      const { sut, validation } = makeSut();
+      jest.spyOn(validation, "validate").mockReturnValueOnce(new MissingParamError("id"));
+
+      const httpRequest: HttpRequest = { body: { id: null } }
+
+      const result = await sut.deleteProductById(httpRequest);
+
+      expect(result).toEqual({
+        body: new MissingParamError('id'),
+        statusCode: 400
+      });
+    });
+
+    test('Should delete a product', async () => {
+      const { sut } = makeSut()
+
+      const httpRequest: HttpRequest = { body: { id: 1 } }
+
+      const result = await sut.deleteProductById(httpRequest)
+
+      expect(result).toEqual({
+        statusCode: 200,
+        body: undefined
+      })
+    })
+
+    test('Should throw if deleteProductById throws', async () => {
+      const { sut, productRepositoryStub } = makeSut()
+      
+      jest
+        .spyOn(productRepositoryStub, "deleteProductById")
+        .mockRejectedValueOnce(new Error());
+
+      const httpRequest: HttpRequest = {
+        body: {
+          id: 1,
+        },
+      };
+
+      try {
+        await sut.deleteProductById(httpRequest);
+        fail("Expected an exception to be thrown");
+      } catch (error) {
+        expect(error).toBeInstanceOf(Error);
+      }
+    })
   });
 });

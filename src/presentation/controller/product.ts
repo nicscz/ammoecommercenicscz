@@ -45,6 +45,21 @@ export class ProductController {
       return serverError(error)
     }
   }
+
+  async deleteProductById (httpRequest: HttpRequest): Promise<HttpRequest> {
+    try {
+      const error = this.validation.validate(httpRequest.body)
+      if (error) {
+        return badRequest(error)
+      }
+
+      const result = await this.productRepository.deleteProductById(httpRequest.body.id)
+
+      return ok(result)
+    } catch (error) {
+      return serverError(error)
+    }
+  }
 }
 
 export default ProductController
