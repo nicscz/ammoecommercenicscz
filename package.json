@@ -4,12 +4,22 @@
   "description": "Desafio proposto pela empresa Ammo Varejo para vaga de FSD",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node dist/main/server.js",
+    "build": "rimraf dist && tsc",
+    "dev": "sucrase-node src/main/server.ts",
+    "test": "jest",
+    "test:verbose": "jest --passWithNoTests --runInBand",
+    "test:unit": "npm test -- --watch -c jest-unit-config.js",
+    "test:integration": "npm test -- --watch -c jest-integration-config.js",
+    "test:staged": "npm test -- --findRelatedTests",
+    "lint-staged": "lint-staged",
+    "test:ci": "npm test -- --coverage"
   },
   "keywords": [],
   "author": "Nícolas Nascimento Scorzelli Serrano",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^29.5.3",
     "@types/node": "^20.4.10",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "eslint": "^8.47.0",
@@ -19,6 +29,8 @@
     "eslint-plugin-promise": "^6.1.1",
     "git-commit-msg-linter": "^5.0.4",
     "husky": "^8.0.3",
+    "jest": "^29.6.2",
+    "ts-jest": "^29.1.1",
     "typescript": "^5.1.6"
   }
 }
