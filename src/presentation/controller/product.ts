@@ -46,7 +46,7 @@ export class ProductController {
     }
   }
 
-  async deleteProductById (httpRequest: HttpRequest): Promise<HttpRequest> {
+  async deleteProductById (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const error = this.validation.validate(httpRequest.body)
       if (error) {

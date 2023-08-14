@@ -61,8 +61,8 @@ const makeProductRepositoryStub = () => {
       });
     }
 
-    deleteProductById(id: any): Promise<void> {
-      return Promise.resolve();
+    deleteProductById(id: any): Promise<boolean> {
+      return Promise.resolve(true);
     }
   }
 
@@ -233,7 +233,7 @@ describe("Product Controller", () => {
 
       expect(result).toEqual({
         statusCode: 200,
-        body: undefined
+        body: true
       })
     })
 
