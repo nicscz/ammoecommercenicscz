@@ -14,7 +14,7 @@ export class DbProductRepository implements ProductRepository {
   async getProductByName (name: string): Promise<ProductModel> {
     const cachedProduct = await getAsync(`product:${name}`)
     if (cachedProduct) {
-      return JSON.parse(cachedProduct) // Desserializar o valor do cache
+      return JSON.parse(cachedProduct)
     }
 
     const connection: Pool = await this.databaseConnector.generateConnection()

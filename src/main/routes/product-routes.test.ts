@@ -1,6 +1,13 @@
+import { redis } from '../../infra/database/redis'
 import request from 'supertest'
 import app from '../config/app'
-import { DatabaseConnector } from '../../infra/database/postgres/postgres'
+import * as dotenv from 'dotenv'
+dotenv.config()
+
+afterAll(async () => {
+  await redis.quit();
+});
+
 
 describe('Product Routes', () => {
   describe('GET /products', () => {
