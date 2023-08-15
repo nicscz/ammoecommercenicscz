@@ -1,10 +1,11 @@
 import { HttpRequest, HttpResponse } from '../protocols/http'
 import { badRequest, ok, serverError } from '../helpers/http/http-helper'
 import { Validation } from '../protocols/validation'
+import { ProductRepository } from '../../data/usecases/add-product/db-product-protocols'
 
 export class ProductController {
   constructor (
-    private readonly productRepository: any,
+    private readonly productRepository: ProductRepository,
     private readonly validationId: Validation,
     private readonly validationName: Validation
   ) {}

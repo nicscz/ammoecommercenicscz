@@ -6,7 +6,7 @@ describe('Product Routes', () => {
   describe('GET /products', () => {
     test('should return 200 on get products', async () => {
         await request(app)
-        .get('/api/products?page=1&pageSize=10')
+        .get('/api/products?page=1&pageSize=5')
         .expect({
             "statusCode": 200,
             "body": {
@@ -70,71 +70,11 @@ describe('Product Routes', () => {
                         ],
                         "categoria": "Eletrônicos",
                         "created_at": "2023-08-15T01:31:29.352Z"
-                    },
-                    {
-                        "id": 39,
-                        "nome": "Câmera DSLR Profissional",
-                        "descricao": "Câmera de alta qualidade para fotografia profissional.",
-                        "preco_promocional": "799.99",
-                        "preco_original": "899.99",
-                        "imagens": [
-                            "camera_dslr.jpg"
-                        ],
-                        "categoria": "Fotografia",
-                        "created_at": "2023-08-15T01:31:29.352Z"
-                    },
-                    {
-                        "id": 40,
-                        "nome": "Relógio Inteligente Fitness",
-                        "descricao": "Relógio com recursos inteligentes para acompanhar sua saúde.",
-                        "preco_promocional": "129.99",
-                        "preco_original": "149.99",
-                        "imagens": [
-                            "relogio_fitness.jpg"
-                        ],
-                        "categoria": "Acessórios",
-                        "created_at": "2023-08-15T01:31:29.352Z"
-                    },
-                    {
-                        "id": 41,
-                        "nome": "Console de Video Game Next-Gen",
-                        "descricao": "Console de última geração para uma experiência de jogo incrível.",
-                        "preco_promocional": "499.99",
-                        "preco_original": "599.99",
-                        "imagens": [
-                            "console_nextgen.jpg"
-                        ],
-                        "categoria": "Eletrônicos",
-                        "created_at": "2023-08-15T01:31:29.352Z"
-                    },
-                    {
-                        "id": 42,
-                        "nome": "Mochila para Notebook",
-                        "descricao": "Mochila resistente e prática para transportar seu notebook.",
-                        "preco_promocional": "39.99",
-                        "preco_original": "49.99",
-                        "imagens": [
-                            "mochila_notebook.jpg"
-                        ],
-                        "categoria": "Acessórios",
-                        "created_at": "2023-08-15T01:31:29.352Z"
-                    },
-                    {
-                        "id": 43,
-                        "nome": "Forno Elétrico de Bancada",
-                        "descricao": "Forno para preparar suas refeições de maneira prática.",
-                        "preco_promocional": "79.99",
-                        "preco_original": "89.99",
-                        "imagens": [
-                            "forno_eletrico.jpg"
-                        ],
-                        "categoria": "Eletrodomésticos",
-                        "created_at": "2023-08-15T01:31:29.352Z"
                     }
                 ],
                 "currentPage": 1,
-                "totalPages": 4,
-                "totalProducts": "31"
+                "totalPages": 7,
+                "totalProducts": 31
             }
         })
     })
