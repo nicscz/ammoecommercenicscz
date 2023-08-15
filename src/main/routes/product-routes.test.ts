@@ -19,18 +19,6 @@ describe('Product Routes', () => {
             "body": {
                 "products": [
                     {
-                        "id": 3,
-                        "nome": "Camiseta Casual",
-                        "descricao": "Uma camiseta confortável para o uso diário.",
-                        "preco_promocional": "29.99",
-                        "preco_original": "39.99",
-                        "imagens": [
-                            "https://exemplo.com/imagens/camiseta1.jpg"
-                        ],
-                        "categoria": "Vestuário",
-                        "created_at": "2023-08-13T16:13:28.128Z"
-                    },
-                    {
                         "id": 35,
                         "nome": "Smartphone Modelo X",
                         "descricao": "Um smartphone avançado com recursos incríveis.",
@@ -77,6 +65,18 @@ describe('Product Routes', () => {
                         ],
                         "categoria": "Eletrônicos",
                         "created_at": "2023-08-15T01:31:29.352Z"
+                    },
+                    {
+                        "id": 39,
+                        "nome": "Câmera DSLR Profissional",
+                        "descricao": "Câmera de alta qualidade para fotografia profissional.",
+                        "preco_promocional": "799.99",
+                        "preco_original": "899.99",
+                        "imagens": [
+                            "camera_dslr.jpg"
+                        ],
+                        "categoria": "Fotografia",
+                        "created_at": "2023-08-15T01:31:29.352Z"
                     }
                 ],
                 "currentPage": 1,
@@ -91,22 +91,22 @@ describe('Product Routes', () => {
         await request(app)
         .get('/api/productByName')
         .send({
-            "name": "Camiseta Casual"
+            "name": "Smartphone Modelo X"
         })
         .expect({
             "statusCode": 200,
             "body": [
                 {
-                    "id": 3,
-                    "nome": "Camiseta Casual",
-                    "descricao": "Uma camiseta confortável para o uso diário.",
-                    "preco_promocional": "29.99",
-                    "preco_original": "39.99",
+                    "id": 35,
+                    "nome": "Smartphone Modelo X",
+                    "descricao": "Um smartphone avançado com recursos incríveis.",
+                    "preco_promocional": "799.99",
+                    "preco_original": "899.99",
                     "imagens": [
-                        "https://exemplo.com/imagens/camiseta1.jpg"
+                        "smartphone_x.jpg"
                     ],
-                    "categoria": "Vestuário",
-                    "created_at": "2023-08-13T16:13:28.128Z"
+                    "categoria": "Eletrônicos",
+                    "created_at": "2023-08-15T01:30:38.177Z"
                 }
             ]
         })
