@@ -5,7 +5,16 @@ import { Validation } from "../protocols/validation";
 import { ProductModel, ProductList } from "../../domain/models/product"
 import { ProductRepository } from '../../data/protocols/db/product/repositories/productRepository'
 
-const makeValidation = (): Validation => {
+const makeProductValidationId = (): Validation => {
+  class ValidationStub implements Validation {
+    validate(input: any): Error | null {
+      return null;
+    }
+  }
+  return new ValidationStub();
+};
+
+const makeProductValidationName = (): Validation => {
   class ValidationStub implements Validation {
     validate(input: any): Error | null {
       return null;
@@ -71,17 +80,20 @@ const makeProductRepositoryStub = () => {
 
 interface SutTypes {
   sut: ProductController
-  validation: Validation
+  validationId: Validation
+  validationName: Validation
   productRepositoryStub: ProductRepository
 }
 
 const makeSut = (): SutTypes => {
   const productRepositoryStub = makeProductRepositoryStub();
-  const validation = makeValidation();
-  const sut = new ProductController(productRepositoryStub, validation);
+  const validationId = makeProductValidationId();
+  const validationName = makeProductValidationName();
+  const sut = new ProductController(productRepositoryStub, validationId, validationName);
   return {
     sut,
-    validation,
+    validationId,
+    validationName,
     productRepositoryStub
   };
 };
@@ -170,8 +182,8 @@ describe("Product Controller", () => {
     });
 
     test("Should return 400 if no id is provided", async () => {
-      const { sut, validation } = makeSut();
-      jest.spyOn(validation, "validate").mockReturnValueOnce(new MissingParamError("id"));
+      const { sut, validationName } = makeSut();
+      jest.spyOn(validationName, "validate").mockReturnValueOnce(new MissingParamError("id"));
 
       const httpRequest: HttpRequest = {
         body: {
@@ -183,7 +195,7 @@ describe("Product Controller", () => {
 
       expect(result).toEqual({
         statusCode: 400,
-        body: new MissingParamError("id"),
+        body: new MissingParamError("id")
       });
     });
 
@@ -211,7 +223,7 @@ describe("Product Controller", () => {
 
   describe("DeleteProductById", () => {
     test("Should return 400 if no id is provided", async () => {
-      const { sut, validation } = makeSut();
+      const { sut, validationId: validation } = makeSut();
       jest.spyOn(validation, "validate").mockReturnValueOnce(new MissingParamError("id"));
 
       const httpRequest: HttpRequest = { body: { id: null } }
@@ -227,13 +239,13 @@ describe("Product Controller", () => {
     test('Should delete a product', async () => {
       const { sut } = makeSut()
 
-      const httpRequest: HttpRequest = { body: { id: 1 } }
+      const httpRequest: HttpRequest = { params: { id: 1 } }
 
       const result = await sut.deleteProductById(httpRequest)
 
       expect(result).toEqual({
-        statusCode: 200,
-        body: true
+        "statusCode": 200,
+        "body": true
       })
     })
 

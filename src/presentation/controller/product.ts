@@ -5,7 +5,8 @@ import { Validation } from '../protocols/validation'
 export class ProductController {
   constructor (
     private readonly productRepository: any,
-    private readonly validation: Validation
+    private readonly validationId: Validation,
+    private readonly validationName: Validation
   ) {}
 
   async getProducts (page: number = 1, pageSize: number = 10): Promise<HttpResponse> {
@@ -31,7 +32,7 @@ export class ProductController {
 
   async getProductByName (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.body)
+      const error = this.validationName.validate(httpRequest.body)
       if (error) {
         return badRequest(error)
       }
@@ -48,12 +49,12 @@ export class ProductController {
 
   async deleteProductById (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.body)
+      const error = this.validationId.validate(httpRequest.params)
       if (error) {
         return badRequest(error)
       }
 
-      const result = await this.productRepository.deleteProductById(httpRequest.body.id)
+      const result = await this.productRepository.deleteProductById(Number(httpRequest.params.id))
 
       return ok(result)
     } catch (error) {

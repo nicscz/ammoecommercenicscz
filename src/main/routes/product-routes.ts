@@ -17,7 +17,7 @@ function applyResult (result: HttpResponse, res: Response, successStatusCode: nu
     res.status(successStatusCode)
     res.send(result)
   }
-} // Certifique-se de importar as classes corretas
+}
 
 export default (router: Router): void => {
   router.get('/products', async (req: Request, res: Response) => {
@@ -25,6 +25,18 @@ export default (router: Router): void => {
     const pageSize = Number(req.query.pageSize) || 10
     const productController = makeProductController()
     const result = await productController.getProducts(page, pageSize)
+    applyResult(result, res, result.statusCode)
+  })
+
+  router.get('/productByName', async (req: Request, res: Response) => {
+    const productController = makeProductController()
+    const result = await productController.getProductByName(req)
+    applyResult(result, res, result.statusCode)
+  })
+
+  router.delete('/product/:id', async (req: Request, res: Response) => {
+    const productController = makeProductController()
+    const result = await productController.deleteProductById(req)
     applyResult(result, res, result.statusCode)
   })
 }
