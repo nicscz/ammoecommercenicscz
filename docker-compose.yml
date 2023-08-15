@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    links:
+      - postgres
+      - redis
+    depends_on:
+      - postgres
+      - redis
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: postgres
+    volumes:
+      - ./data:/data/postgres
+    ports:
+      - 5432:5432
+  redis:
+    container_name: redis
+    image: redis:latest
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379

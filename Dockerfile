@@ -1,5 +1,5 @@
 # Use uma imagem Node.js
-FROM node:18
+FROM node:16
 
 # Defina o diretório de trabalho dentro do contêiner
 WORKDIR /app
@@ -21,4 +21,4 @@ RUN npm run build
 EXPOSE 3000
 
 # Comando para iniciar a API
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/main/server.js"]
