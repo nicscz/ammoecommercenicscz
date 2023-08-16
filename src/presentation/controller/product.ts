@@ -59,7 +59,6 @@ export class ProductController {
 
       return ok(result)
     } catch (error) {
-      console.log('@@ error @@@', error)
       return serverError(error)
     }
   }

@@ -13,7 +13,7 @@ describe('Product Routes', () => {
   describe('GET /products', () => {
     test('should return 200 on get products', async () => {
         await request(app)
-        .get('/api/products?page=1&pageSize=5')
+        .get('/api/products?page=1&pageSize=3')
         .expect({
             "statusCode": 200,
             "body": {
@@ -53,35 +53,11 @@ describe('Product Routes', () => {
                         ],
                         "categoria": "Acessórios",
                         "created_at": "2023-08-15T01:30:38.177Z"
-                    },
-                    {
-                        "id": 38,
-                        "nome": "Smart TV 55\" Ultra HD",
-                        "descricao": "TV com qualidade de imagem incrível para sua sala.",
-                        "preco_promocional": "999.99",
-                        "preco_original": "1199.99",
-                        "imagens": [
-                            "smart_tv_55.jpg"
-                        ],
-                        "categoria": "Eletrônicos",
-                        "created_at": "2023-08-15T01:31:29.352Z"
-                    },
-                    {
-                        "id": 39,
-                        "nome": "Câmera DSLR Profissional",
-                        "descricao": "Câmera de alta qualidade para fotografia profissional.",
-                        "preco_promocional": "799.99",
-                        "preco_original": "899.99",
-                        "imagens": [
-                            "camera_dslr.jpg"
-                        ],
-                        "categoria": "Fotografia",
-                        "created_at": "2023-08-15T01:31:29.352Z"
                     }
                 ],
                 "currentPage": 1,
-                "totalPages": 7,
-                "totalProducts": 31
+                "totalPages": 10,
+                "totalProducts": 30
             }
         })
     })

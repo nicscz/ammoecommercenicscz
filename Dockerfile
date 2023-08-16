@@ -18,7 +18,7 @@ COPY . .
 RUN npm run build
 
 # Exponha a porta que a API usará
-EXPOSE 3000
+EXPOSE 5000
 
 # Comando para iniciar a API
 CMD ["node", "dist/main/server.js"]
