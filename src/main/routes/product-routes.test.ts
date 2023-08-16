@@ -8,7 +8,6 @@ afterAll(async () => {
   await redis.quit();
 });
 
-
 describe('Product Routes', () => {
   describe('GET /products', () => {
     test('should return 200 on get products', async () => {

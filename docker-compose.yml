@@ -21,7 +21,7 @@ services:
       POSTGRES_PASSWORD: root
       POSTGRES_DB: postgres
     volumes:
-      - ./data:/data/postgres
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
   redis:
@@ -30,3 +30,6 @@ services:
     environment:
       REDIS_HOST: redis
       REDIS_PORT: 6379
+
+volumes:
+  postgres_data:
