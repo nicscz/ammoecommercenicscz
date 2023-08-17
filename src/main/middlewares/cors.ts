@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express'
 
 export const cors = (req: Request, res: Response, next: NextFunction): void => {
-  res.set('acess-control-allow-origin', '*')
-  res.set('acess-control-allow-methods', '*')
-  res.set('acess-control-allow-headers', '*')
+  res.set('Access-Control-Allow-Origin', '*')
+  res.set('Access-Control-Allow-Methods', '*')
+  res.set('Access-Control-Allow-Headers', '*')
   next()
 }
